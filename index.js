@@ -14,3 +14,6 @@ app.listen(3000, () => {
 app.route("/api/articles/create")
     .get((req, res) => res.status(503).send({ status: "ERROR"}));
 
+app.route("/api/articles/delete")
+    .get((req, res) => res.status (503).send({ status: "ERROR"}));
+
