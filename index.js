@@ -51,6 +51,24 @@ app.route("/api/articles/create")
     );
 });
 
-        app.route("/api/articles/delete")
-    .get((req, res) => res.status (503).send({ status: "ERROR"}));
+app.route("/api/articles/delete")
+    .get((req, res) => res.status (503).send({ status: "ERROR"}))
+    .post((req, res) => {
+        const sqlConnection = mysql.createConnection(sqlConfig);
+
+        sqlConnection.query(
+            "DELETE FROM node_articles WHERE id = ?",
+            [req.body.articlesId],
+            (error, result) => {
+                if (error) {
+                    console.log("ERROR :", error.code);
+                    res.status(503).send({ status: "ERROR"});
+                } else {
+                    console.log(result);
+                    res.send({ status: "OK" });
+                }
+                sqlConnection.end();
+            }
+        );
+    });
 
