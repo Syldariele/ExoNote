@@ -7,10 +7,10 @@
 <body>
     <h1>Formulaire de création d'article</h1>
         <form class="form" action="/api/articles/create" method="post">
-            <input class="title" type="text" placeholder="Nom de l'article"/>
-            <input class="content" type="text" placeholder="Description"/>
-            <input class="author" type="text" placeholder="Auteur"/>
-            <input class="create" type="datetime-local" placeholder="Date de création"/>
+            <input name="title" type="text" placeholder="Nom de l'article"/>
+            <input name="content" type="text" placeholder="Description"/>
+            <input name="author" type="text" placeholder="Auteur"/>
+            <input name="create_date" type="datetime-local" placeholder="Date de création"/>
         </form>
 </body>
 </html>

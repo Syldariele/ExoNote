@@ -13,7 +13,27 @@ app.listen(3000, () => {
 
 app.route("/api/articles/create")
     .get((req, res) => res.status(503).send({ status: "ERROR"}));
+    .post((req, res) => {
+        console.log(req.body);
 
-app.route("/api/articles/delete")
+    const sqlConnection = mysql.createConnection(sqlConfig);
+
+    sqlConnection.query(
+        "INSERT INTO node_articles VALUES (NULL, ?, ?, ?, ?)",
+                [req.body.title, req.body.content, req.body.author, req.body.create_date],
+        (error, result) => {
+            if (error) {
+                console.log("ERROR :", error.code);
+                res.status(503).send({ status: "ERROR"});
+            } else {
+                console.log(result);
+                res.send({ status: "OK" });
+            }
+            sqlConnection.end();
+        }
+    );
+});
+
+        app.route("/api/articles/delete")
     .get((req, res) => res.status (503).send({ status: "ERROR"}));
 
