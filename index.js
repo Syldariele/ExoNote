@@ -9,10 +9,27 @@ app.listen(3000, () => {
     console.log("SERVEUR STARTED !");
 });
 
+app.use(express.static("./public"));
+app.use(express.urlencoded({ extended: true}));
 
+app.get("/api/articles", (req, res) => {
+    const sqlConnection = mysql.createConnection(sqlConfig);
+
+    sqlConnection.query(
+        "SELECT id, title, content, author, created_at FROM node_articles ORDER BY id DESC LIMIT 5",
+        (error, result) => {
+            if (error) {
+                console.log("ERROR :", error.code);
+            } else {
+                res.send(result[0]);
+            }
+            sqlConnection.end();
+        }
+    );
+});
 
 app.route("/api/articles/create")
-    .get((req, res) => res.status(503).send({ status: "ERROR"}));
+    .get((req, res) => res.status(503).send({ status: "ERROR"}))
     .post((req, res) => {
         console.log(req.body);
 
