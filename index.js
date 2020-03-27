@@ -37,7 +37,7 @@ app.route("/api/articles/create")
 
     sqlConnection.query(
         "INSERT INTO node_articles VALUES (NULL, ?, ?, ?, ?)",
-                [req.body.title, req.body.content, req.body.author, req.body.create_date],
+        [req.body.title, req.body.content, req.body.author, req.body.create_date],
         (error, result) => {
             if (error) {
                 console.log("ERROR :", error.code);
@@ -59,6 +59,66 @@ app.route("/api/articles/delete")
         sqlConnection.query(
             "DELETE FROM node_articles WHERE id = ?",
             [req.body.articlesId],
+            (error, result) => {
+                if (error) {
+                    console.log("ERROR :", error.code);
+                    res.status(503).send({ status: "ERROR"});
+                } else {
+                    console.log(result);
+                    res.send({ status: "OK" });
+                }
+                sqlConnection.end();
+            }
+        );
+    });
+
+app.get("/api/comments", (req, res) => {
+    const sqlConnection = mysql.createConnection(sqlConfig);
+
+    sqlConnection.query(
+        "SELECT id FROM node_comments ORDER BY id DESC LIMIT 5",
+        (error, result) => {
+            if (error) {
+                console.log("ERROR :", error.code);
+            } else {
+                res.send(result[0]);
+            }
+            sqlConnection.end();
+        }
+    );
+});
+
+app.route("/api/comments/create")
+    .get((req, res) => res.status(503).send({ status: "ERROR"}))
+    .post((req, res) => {
+        console.log(req.body);
+
+        const sqlConnection = mysql.createConnection(sqlConfig);
+
+        sqlConnection.query(
+            "INSERT INTO node_comments VALUES (NULL, ?, ?,?, ?)",
+            [req.body.article_id, req.body.content, req.body.author, req.body.create_date],
+            (error, result) => {
+                if (error) {
+                    console.log("ERROR :", error.code);
+                    res.status(503).send({ status: "ERROR"});
+                } else {
+                    console.log(result);
+                    res.send({ status: "OK" });
+                }
+                sqlConnection.end();
+            }
+        );
+    });
+
+app.route("/api/comments/delete")
+    .get((req, res) => res.status (503).send({ status: "ERROR"}))
+    .post((req, res) => {
+        const sqlConnection = mysql.createConnection(sqlConfig);
+
+        sqlConnection.query(
+            "DELETE FROM node_comments WHERE id = ?",
+            [req.body.deleteId],
             (error, result) => {
                 if (error) {
                     console.log("ERROR :", error.code);

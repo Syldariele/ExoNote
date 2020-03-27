@@ -6,8 +6,10 @@
 <body>
     <h1>Vos commentaires</h1>
         <form action="/api/comments/create" method="post">
-            <label for="comment">Veuillez mettre vos commentaires ici</label>
-            <textarea id="comment" name="comment"></textarea>
+            <input name="article_id" type="number" placeholder="Commentaire sous l'article"/>
+            <input name="content" type="text" placeholder="Commentaires"/>
+            <input name="author" type="number" placeholder="Auteur"/>
+            <input name="create_date" type="datetime-local" placeholder="Date de création"/>
             <button type="submit">Valider</button>
         </form>
 </body>
