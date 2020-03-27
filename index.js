@@ -21,7 +21,7 @@ app.get("/api/articles", (req, res) => {
             if (error) {
                 console.log("ERROR :", error.code);
             } else {
-                res.send(result[0]);
+                res.send(result);
             }
             sqlConnection.end();
         }
@@ -81,7 +81,7 @@ app.get("/api/comments", (req, res) => {
             if (error) {
                 console.log("ERROR :", error.code);
             } else {
-                res.send(result[0]);
+                res.send(result);
             }
             sqlConnection.end();
         }
