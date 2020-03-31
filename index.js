@@ -16,7 +16,10 @@ app.get("/api/articles", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
 
     sqlConnection.query(
-        "SELECT id, title, content, author, created_at FROM node_articles ORDER BY id DESC LIMIT 5",
+        "SELECT id, title, content, author, created_at FROM node_articles ORDER BY id DESC LIMIT 5", /* pour author on fait une jointure : author.firstname AS authorFirstname,
+        author.lastname AS authorLastname, created_at (on ferme les "" et met + "  FROM....." */
+        /* pour le ORDER BY on ne le fait pas par l'id mais par le created_at */
+        /* pour le reste voir la correction github......*/
         (error, result) => {
             if (error) {
                 console.log("ERROR :", error.code);
@@ -36,15 +39,15 @@ app.route("/api/articles/create")
     const sqlConnection = mysql.createConnection(sqlConfig);
 
     sqlConnection.query(
-        "INSERT INTO node_articles VALUES (NULL, ?, ?, ?, ?)",
-        [req.body.title, req.body.content, req.body.author, req.body.create_date],
+        "INSERT INTO node_articles (title, content, author) VALUES (?, ?, ?)", /* on ne précise pas les NULL */
+        [req.body.title, req.body.content, req.body.author], /* par conséquent on ne met pas de req.body.created_date */
         (error, result) => {
             if (error) {
                 console.log("ERROR :", error.code);
                 res.status(503).send({ status: "ERROR"});
             } else {
                 console.log(result);
-                res.send({ status: "OK" });
+                res.send({ status: "OK", articles: result });   /* préciser le result !!!!!! */
             }
             sqlConnection.end();
         }
@@ -96,7 +99,7 @@ app.route("/api/comments/create")
         const sqlConnection = mysql.createConnection(sqlConfig);
 
         sqlConnection.query(
-            "INSERT INTO node_comments VALUES (NULL, ?, ?,?, ?)",
+            " INSERT INTO node_comments (article_id, author, content) VALUES ( ?, ?, ?)",
             [req.body.article_id, req.body.content, req.body.author, req.body.create_date],
             (error, result) => {
                 if (error) {
