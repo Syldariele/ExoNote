@@ -1,5 +1,5 @@
 const mysql   = require("mysql");
-const sqlConfig = settings("../../settings.json").sqlConfig;
+const sqlConfig = require("../../settings.json").sqlConfig;
 const app = require("../app.js");
 
 app.route("/api/comments/create")
