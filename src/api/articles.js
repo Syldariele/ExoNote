@@ -105,7 +105,7 @@ app.get("/api/article", (req, res) => {
                 console.log(result);
                 res.send({
                     status: "OK",
-                    articles: result[0],
+                    article: result[0],
                 });
             }
             sqlConnection.end();
