@@ -64,7 +64,7 @@ app.get("/api/comments", (req, res) => {
     const sqlConnection = mysql.createConnection(sqlConfig);
 
     sqlConnection.query(
-        "SELECT article_id, content, node_users.firstname AS authorFirstname, node_users.lastname AS authorLastname, created_at"
+        "SELECT node_comments.id, article_id, content, node_users.firstname AS authorFirstname, node_users.lastname AS authorLastname, created_at"
         + "  FROM node_comments"
         + "  LEFT JOIN node_users"
         + "  ON node_comments.author = node_users.id"
