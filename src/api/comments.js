@@ -38,6 +38,11 @@ app.route("/api/comments/create")
 app.route("/api/comments/delete")
     .get((req, res) => res.status(503).send({ status: "ERROR"}))
     .post((req, res) => {
+        if (typeof req.body.id !== "string" || req.body.id === "") {
+            res.status(503).send({ status: "ERROR", extra: "Vous devez renseigner un id de commentaire" });
+            return;
+        }
+
         const sqlConnection = mysql.createConnection(sqlConfig);
 
         sqlConnection.query(
