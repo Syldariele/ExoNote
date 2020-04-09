@@ -5,6 +5,19 @@ const app = require("../app.js");
 app.route("/api/comments/create")
     .get((req, res) => res.status(503).send({ status: "ERROR"}))
     .post((req, res) => {
+        if ( typeof req.body.article_id !== "string" || req.body.article_id === "") {
+            res.status(503).send({ status: "ERROR", extra: "Vous devez renseigner un article_id" });
+            return;
+        }
+        if ( typeof req.body.content !== "string" || req.body.content === "") {
+            res.status(503).send({ status: "ERROR", extra: "Le commentaire  est vide" });
+            return;
+        }
+        if ( typeof req.body.author !== "string" || req.body.author === "") {
+            res.status(503).send({ status: "ERROR", extra: " L'auteur n'est pas renseigné" });
+            return;
+        }
+
         const sqlConnection = mysql.createConnection(sqlConfig);
 
         sqlConnection.query(
