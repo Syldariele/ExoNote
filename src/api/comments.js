@@ -53,7 +53,11 @@ app.route("/api/comments/delete")
                     res.status(503).send({ status: "ERROR" });
                 } else {
                     console.log(result);
-                    res.send({ status: "OK" });
+                    if (result.affectedRows === 0) {
+                        res.status(503).send({ status: "ERROR", extra: "Le commentaire n'existe pas" });
+                    } else {
+                        res.send({ status: "OK" });
+                    }
                 }
                 sqlConnection.end();
             }
