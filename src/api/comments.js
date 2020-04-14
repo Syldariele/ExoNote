@@ -28,7 +28,9 @@ app.route("/api/comments/create")
                     res.status(503).send({ status: "ERROR" });
                 } else {
                     console.log(result);
-                    res.send({ status: "OK" });
+                    res.send({ status: "OK", result: {
+                        commentId: result.insertId
+                        }});
                 }
                 sqlConnection.end();
             }
