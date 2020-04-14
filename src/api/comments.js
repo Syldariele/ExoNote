@@ -75,7 +75,7 @@ app.get("/api/comments", (req, res) => {
         + "  WHERE article_id = ?"
         + "  ORDER BY created_at DESC"
         + "  LIMIT 5;",
-        [ req.query.id ],
+        [ req.query.article_id ],
         (error, result) => {
             if (error) {
                 console.log(error.code);
